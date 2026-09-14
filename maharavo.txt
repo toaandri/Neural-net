@@ -1,0 +1,708 @@
+PROJET AUTODIDACTE — NEURAL-NET-FROM-SCRATCH
+===============================================
+
+Titre
+-----
+Neural Network From Scratch — Mini-framework de Deep Learning développé avec Python et NumPy
+
+OBJECTIF
+--------
+Construire progressivement un moteur de réseau neuronal entièrement développé soi-même,
+sans PyTorch ni TensorFlow au début, afin de comprendre concrètement les mécanismes
+mathématiques et logiciels derrière l'entraînement d'un modèle de machine learning.
+
+Le projet privilégie la compréhension, l'implémentation et l'expérimentation plutôt
+que la simple utilisation d'une bibliothèque existante.
+
+TECHNOLOGIES
+------------
+- Python 3
+- NumPy
+- Matplotlib
+- pytest
+- Git / GitHub
+- Pandas éventuellement pour certaines données
+
+INTERDICTION AU DÉBUT
+---------------------
+Ne pas utiliser PyTorch, TensorFlow, Keras ou JAX pour entraîner le modèle.
+Le moteur principal doit être développé avec Python et NumPy.
+
+============================================================
+1. CONCEPT
+============================================================
+
+Le programme doit permettre de construire, entraîner, évaluer, sauvegarder et charger
+des réseaux neuronaux.
+
+Pipeline :
+
+    Données
+       |
+       v
+    Prétraitement
+       |
+       v
+    Réseau neuronal
+       |
+       +--> Forward propagation
+       |
+       +--> Loss
+       |
+       +--> Backpropagation
+       |
+       +--> Optimisation
+       |
+       v
+    Mise à jour des poids
+       |
+       v
+    Nouvelle itération
+
+API finale visée :
+
+    model = Sequential([
+        Dense(128),
+        ReLU(),
+        Dense(64),
+        ReLU(),
+        Dense(10),
+        Softmax()
+    ])
+
+    model.compile(
+        optimizer="adam",
+        loss="cross_entropy"
+    )
+
+    model.fit(X_train, y_train, epochs=20)
+
+    predictions = model.predict(X_test)
+
+Les mécanismes importants derrière cette API doivent être codés soi-même.
+
+============================================================
+2. CONNAISSANCES À ACQUÉRIR
+============================================================
+
+Mathématiques :
+- vecteurs
+- matrices
+- multiplication matricielle
+- produit scalaire
+- dérivées
+- dérivées partielles
+- gradient
+- règle de chaîne
+- fonctions de coût
+- optimisation
+- probabilités de base
+
+Machine Learning :
+- apprentissage supervisé
+- classification
+- entraînement / validation / test
+- epochs
+- batchs et mini-batchs
+- learning rate
+- overfitting
+- underfitting
+- régularisation
+- métriques
+
+Deep Learning :
+- neurone artificiel
+- perceptron
+- couches denses
+- fonctions d'activation
+- forward propagation
+- backpropagation
+- gradient descent
+- optimiseurs
+- réseaux multicouches
+- CNN dans une phase avancée
+
+Développement :
+- architecture modulaire
+- programmation orientée objet
+- tests unitaires
+- gestion des erreurs
+- logging
+- sérialisation
+- benchmarks
+- documentation
+- Git
+
+============================================================
+3. V1 — PERCEPTRON
+============================================================
+
+Créer le neurone artificiel le plus simple.
+
+Calcul :
+
+    z = w.x + b
+
+Puis appliquer une activation.
+
+Implémenter :
+- poids
+- biais
+- calcul de sortie
+- prédiction
+- entraînement
+- mise à jour des poids
+
+Premiers problèmes :
+- AND
+- OR
+
+============================================================
+4. V2 — COUCHES DENSES
+============================================================
+
+Créer une classe Dense :
+
+    Dense(input_size, output_size)
+
+Calcul :
+
+    Z = XW + b
+
+La couche doit gérer :
+- initialisation des poids
+- biais
+- forward
+- backward
+- gradients
+
+============================================================
+5. V3 — FONCTIONS D'ACTIVATION
+============================================================
+
+Implémenter :
+- Sigmoid
+- ReLU
+- Tanh
+- Softmax
+
+Chaque activation doit posséder :
+- forward()
+- backward()
+
+Pour chaque activation :
+1. comprendre la formule ;
+2. coder la fonction ;
+3. coder sa dérivée ;
+4. tester numériquement les gradients.
+
+============================================================
+6. V4 — FONCTIONS DE COÛT
+============================================================
+
+Implémenter :
+- Mean Squared Error
+- Binary Cross Entropy
+- Categorical Cross Entropy
+
+Exemple :
+
+    Loss = -sum(y * log(y_pred))
+
+Documenter quand chaque fonction est appropriée.
+
+============================================================
+7. V5 — BACKPROPAGATION
+============================================================
+
+C'est une partie centrale du projet.
+
+Pipeline :
+
+    Forward
+       |
+       v
+    Prediction
+       |
+       v
+    Loss
+       |
+       v
+    Backward
+       |
+       v
+    Gradients
+       |
+       v
+    Optimizer
+       |
+       v
+    Nouveaux paramètres
+
+Comprendre et documenter :
+- règle de chaîne
+- gradient local
+- gradient global
+- propagation du gradient à travers plusieurs couches
+
+============================================================
+8. V6 — OPTIMISATION
+============================================================
+
+Commencer avec :
+- SGD / Gradient Descent
+
+Puis implémenter :
+- Momentum
+- RMSProp
+- Adam
+
+Comparer :
+- vitesse de convergence
+- stabilité
+- nombre d'epochs
+- résultat final
+
+Exemple :
+
+    Optimizer     Epochs     Accuracy
+    ----------------------------------
+    SGD           100        ...
+    Momentum      70         ...
+    Adam          35         ...
+
+============================================================
+9. V7 — MINI-FRAMEWORK
+============================================================
+
+Architecture possible :
+
+    neural_net/
+    |
+    +-- layers/
+    |   +-- dense.py
+    |   +-- dropout.py
+    |   +-- flatten.py
+    |
+    +-- activations/
+    |   +-- relu.py
+    |   +-- sigmoid.py
+    |   +-- tanh.py
+    |   +-- softmax.py
+    |
+    +-- losses/
+    |   +-- mse.py
+    |   +-- binary_cross_entropy.py
+    |   +-- categorical_cross_entropy.py
+    |
+    +-- optimizers/
+    |   +-- sgd.py
+    |   +-- momentum.py
+    |   +-- rmsprop.py
+    |   +-- adam.py
+    |
+    +-- models/
+    |   +-- sequential.py
+    |
+    +-- training/
+    |   +-- trainer.py
+    |
+    +-- metrics/
+    |   +-- accuracy.py
+    |
+    +-- utils/
+    |
+    +-- tests/
+
+Adapter l'architecture au besoin. Ne pas créer de fichiers uniquement pour du
+boilerplate inutile.
+
+============================================================
+10. V8 — XOR
+============================================================
+
+Tester le réseau sur XOR.
+
+Pourquoi XOR ?
+Un perceptron simple ne peut pas correctement résoudre XOR. Un réseau multicouche
+doit donc apprendre une représentation non linéaire.
+
+    Input       Output
+    0 0           0
+    0 1           1
+    1 0           1
+    1 1           0
+
+Visualiser :
+- loss pendant l'entraînement
+- accuracy
+- frontière de décision
+
+============================================================
+11. V9 — MNIST
+============================================================
+
+Faire apprendre au réseau la classification de chiffres manuscrits.
+
+Pipeline :
+
+    image 28x28
+          |
+       Flatten
+          |
+        Dense
+          |
+        ReLU
+          |
+        Dense
+          |
+       Softmax
+          |
+       0 à 9
+
+Mesurer :
+- accuracy
+- loss
+- temps d'entraînement
+- nombre de paramètres
+- matrice de confusion
+
+Afficher des prédictions avec leur probabilité.
+
+============================================================
+12. V10 — SAUVEGARDE DES MODÈLES
+============================================================
+
+Permettre :
+
+    model.save("model.nn")
+
+Puis :
+
+    model = load_model("model.nn")
+
+Sauvegarder :
+- architecture
+- poids
+- biais
+- configuration
+- éventuellement état de l'optimizer
+
+Format possible :
+- JSON pour la configuration
+- fichiers binaires NumPy pour les poids
+
+============================================================
+13. V11 — RÉGULARISATION
+============================================================
+
+Ajouter :
+- Dropout
+- L2 regularization
+- Early Stopping éventuellement
+
+Comparer volontairement :
+- modèle sans régularisation
+- modèle avec régularisation
+
+Observer l'overfitting sur les courbes train/validation.
+
+============================================================
+14. V12 — CNN
+============================================================
+
+Phase avancée.
+
+Implémenter progressivement :
+- convolution 2D
+- filtres
+- stride
+- padding
+- pooling
+- Flatten
+- Dense
+
+Architecture possible :
+
+    Input
+      |
+    Conv2D
+      |
+    ReLU
+      |
+    MaxPooling
+      |
+    Conv2D
+      |
+    ReLU
+      |
+    Flatten
+      |
+    Dense
+      |
+    Softmax
+
+Tester sur MNIST ou Fashion-MNIST.
+
+============================================================
+15. V13 — PERFORMANCE
+============================================================
+
+Analyser :
+- temps d'un forward pass
+- temps d'un backward pass
+- temps total d'entraînement
+- mémoire utilisée
+- nombre de paramètres
+
+Puis expérimenter :
+- vectorisation NumPy
+- réduction des boucles Python
+- batch processing
+- éventuellement multiprocessing
+- éventuellement GPU/CUDA dans une phase très avancée
+
+Ne pas optimiser avant d'avoir un système correct et testé.
+
+============================================================
+16. V14 — COMPARAISON AVEC PYTORCH
+============================================================
+
+Seulement après avoir construit ton moteur.
+
+Créer exactement le même réseau avec :
+- ton framework
+- PyTorch
+
+Comparer :
+- accuracy
+- temps d'entraînement
+- mémoire
+- nombre de paramètres
+- résultats
+
+Le but n'est pas de battre PyTorch, mais de comprendre pourquoi un framework
+industriel est beaucoup plus optimisé.
+
+============================================================
+17. TESTS
+============================================================
+
+Tester :
+- dimensions des matrices
+- forward des couches
+- backward des couches
+- activations
+- fonctions de coût
+- optimiseurs
+- sérialisation
+- prédictions
+
+GRADIENT CHECKING
+-----------------
+Comparer les gradients analytiques avec une approximation numérique :
+
+    f(x + epsilon) - f(x - epsilon)
+    ---------------------------------
+              2 * epsilon
+
+Comparer ce résultat au gradient calculé par backpropagation.
+
+============================================================
+18. VISUALISATIONS
+============================================================
+
+Créer :
+- loss / epoch
+- accuracy / epoch
+- validation loss
+- validation accuracy
+- matrice de confusion
+- prédictions MNIST
+- frontière de décision pour XOR
+- comparaison des optimiseurs
+- comparaison des architectures
+- effet du learning rate
+
+============================================================
+19. EXPÉRIMENTATIONS SCIENTIFIQUES
+============================================================
+
+Le projet ne doit pas être uniquement du code.
+
+Créer des expériences reproductibles.
+
+Expérience A :
+Quel learning rate converge le mieux ?
+
+Expérience B :
+SGD vs Momentum vs RMSProp vs Adam.
+
+Expérience C :
+ReLU vs Sigmoid vs Tanh.
+
+Expérience D :
+Petit réseau vs grand réseau.
+
+Expérience E :
+Avec ou sans Dropout.
+
+Expérience F :
+Différentes initialisations des poids.
+
+Pour chaque expérience :
+- hypothèse
+- configuration
+- résultats
+- interprétation
+- conclusion
+
+============================================================
+20. STRUCTURE GITHUB
+============================================================
+
+    neural-net-from-scratch/
+    |
+    +-- neural_net/
+    |   +-- layers/
+    |   +-- activations/
+    |   +-- losses/
+    |   +-- optimizers/
+    |   +-- models/
+    |   +-- metrics/
+    |   +-- training/
+    |   +-- utils/
+    |
+    +-- examples/
+    |   +-- xor/
+    |   +-- mnist/
+    |
+    +-- experiments/
+    |   +-- learning_rate/
+    |   +-- optimizers/
+    |   +-- activations/
+    |
+    +-- tests/
+    |
+    +-- benchmarks/
+    |
+    +-- docs/
+    |   +-- mathematics/
+    |   +-- architecture/
+    |
+    +-- README.md
+    +-- requirements.txt
+    +-- pyproject.toml
+    +-- .gitignore
+    +-- LICENSE
+
+============================================================
+21. README GITHUB
+============================================================
+
+Le README doit expliquer :
+1. le problème
+2. pourquoi le projet existe
+3. les concepts étudiés
+4. l'architecture
+5. l'installation
+6. un exemple rapide
+7. les résultats
+8. les expériences
+9. la comparaison avec PyTorch
+10. les limitations
+11. la roadmap
+
+Présenter le projet comme un projet d'apprentissage et d'expérimentation visant
+à comprendre les fondements du deep learning, pas comme un framework industriel.
+
+============================================================
+22. ROADMAP GLOBALE
+============================================================
+
+PHASE 1 — FONDATIONS
+--------------------
+V1 Perceptron
+V2 Dense
+V3 Activations
+V4 Loss
+
+PHASE 2 — APPRENTISSAGE
+-----------------------
+V5 Backpropagation
+V6 SGD / Momentum / RMSProp / Adam
+
+PHASE 3 — FRAMEWORK
+-------------------
+V7 API et architecture
+V8 XOR
+V9 MNIST
+V10 Sauvegarde / chargement
+
+PHASE 4 — DEEP LEARNING
+-----------------------
+V11 Dropout / régularisation
+V12 CNN
+
+PHASE 5 — PERFORMANCE
+---------------------
+V13 Optimisation NumPy
+V14 Benchmarks
+V15 Comparaison PyTorch
+
+============================================================
+23. RÈGLES DU PROJET
+============================================================
+
+1. Comprendre avant d'implémenter.
+2. Ne pas copier directement une implémentation de PyTorch/Keras.
+3. Écrire les formules mathématiques avant le code lorsque c'est pertinent.
+4. Tester chaque composant indépendamment.
+5. Utiliser Git régulièrement.
+6. Faire des commits correspondant à de vraies étapes.
+7. Documenter les erreurs importantes et ce qui a été appris.
+8. Ne pas chercher la performance trop tôt.
+9. Comparer avec des références connues uniquement après avoir obtenu une
+   implémentation fonctionnelle.
+10. Garder le projet suffisamment simple pour pouvoir expliquer chaque partie.
+
+============================================================
+24. OBJECTIF FINAL
+============================================================
+
+À la fin du projet, être capable d'expliquer et de démontrer :
+- comment fonctionne un neurone ;
+- comment fonctionne une couche dense ;
+- pourquoi les fonctions d'activation sont nécessaires ;
+- comment une fonction de coût mesure l'erreur ;
+- comment fonctionne la backpropagation ;
+- comment les gradients sont calculés ;
+- comment les poids sont optimisés ;
+- pourquoi Adam peut converger différemment de SGD ;
+- pourquoi un réseau multicouche peut résoudre XOR ;
+- comment un réseau classe MNIST ;
+- pourquoi les CNN sont adaptés aux images ;
+- pourquoi les frameworks modernes sont beaucoup plus rapides ;
+- quelles sont les limites de ton propre moteur.
+
+============================================================
+CONCLUSION
+============================================================
+
+Ce projet combine :
+
+    MATHÉMATIQUES
+          +
+    ALGORITHMIQUE
+          +
+    MACHINE LEARNING
+          +
+    DÉVELOPPEMENT LOGICIEL
+          +
+    EXPÉRIMENTATION SCIENTIFIQUE
+
+Le but n'est pas simplement de « faire une IA ».
+
+Le but est de comprendre suffisamment profondément ce qui se passe à l'intérieur
+d'un réseau neuronal pour pouvoir ensuite utiliser des frameworks comme PyTorch
+avec une vraie compréhension de leurs mécanismes.
