@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environnements virtuels et variables locales
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Tests, couverture et caches
+.pytest_cache/
+pytest-cache-files-*/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Outils de développement
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Builds / distributions
+build/
+dist/
+*.egg-info/
+
+# Expériences et fichiers générés
+*.log
+*.pkl
+*.joblib
+results/
+artifacts/
